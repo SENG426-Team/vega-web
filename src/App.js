@@ -18,6 +18,8 @@ import {UserContext} from './auth/UserProvider.js';
 
 import UserAccount from './components/pages/UserAccount.js';
 
+require('dotenv').config();
+
 function App() {
   
 
