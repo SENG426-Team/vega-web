@@ -54,6 +54,49 @@ stages:
             messageType: 'content'
             content: 'Azure Frontend Build Pipeline Failed During Test Task'
           condition: failed()
+  - stage: Scan
+    condition: succeded()
+    displayName: Scan Stage
+    jobs:
+    - job: Scan
+      displayName: Scan
+      steps:
+      - task: SonarQubePrepare@5
+        inputs:
+          SonarQube: 'Self-Hosted SonarQube'
+          scannerMode: 'CLI'
+          configMode: 'manual'
+          cliProjectKey: 'vega-web'
+          cliProjectName: 'vega-web'
+          cliSources: '.'
+      - task: ado-discord-webhook@1
+        inputs:
+          channelId: '984576484150738944'
+          webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
+          name: 'Azure-Builds'
+          messageType: 'content'
+          content: 'Azure Frontend Build Pipeline Failed During Scan Config task'
+        condition: failed()
+      - task: SonarQubeAnalyze@5
+      - task: ado-discord-webhook@1
+        inputs:
+          channelId: '984576484150738944'
+          webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
+          name: 'Azure-Builds'
+          messageType: 'content'
+          content: 'Azure Frontend Build Pipeline Failed During Scan task'
+        condition: failed()
+      - task: SonarQubePublish@5
+        inputs:
+          pollingTimeoutSec: '300'
+      - task: ado-discord-webhook@1
+        inputs:
+          channelId: '984576484150738944'
+          webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
+          name: 'Azure-Builds'
+          messageType: 'content'
+          content: 'Azure Frontend Build Pipeline Failed During Publish Scan Task'
+        condition: failed()
   - stage: Build
     condition: succeeded()
     displayName: Build and push stage
