@@ -55,7 +55,7 @@ stages:
             content: 'Azure Frontend Build Pipeline Failed During Test Task'
           condition: failed()
   - stage: Scan
-    condition: succeded()
+    condition: succeeded()
     displayName: Scan Stage
     jobs:
     - job: Scan
