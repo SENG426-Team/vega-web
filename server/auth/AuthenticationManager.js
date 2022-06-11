@@ -1,6 +1,9 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import {login} from '../services/LoginRequestAPI.js';
+import { config } from 'dotenv';
+
+const env = config();
 
 function authModule(req, res) {
 
