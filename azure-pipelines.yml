@@ -2,7 +2,10 @@
 # Build and push an image to Azure Container Registry
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
+<<<<<<< HEAD
+=======
 pr: none
+>>>>>>> 1f132c262e5ca5efc257eed8e01dd8ccc696bb26
 trigger:
 - master
 

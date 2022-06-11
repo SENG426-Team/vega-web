@@ -1,6 +1,6 @@
 import {doPostFile, doGet} from '../BaseAPI.js';
 
-const url = process.env.FRONT_BACKEND_URL;
+const url = process.env.REACT_APP_FRONT_BACKEND_URL;
 
 export function fetchuser(token){
 	return doGet(url+"/api/venus/admin/getusers", token)

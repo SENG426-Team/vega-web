@@ -1,6 +1,6 @@
 import {doPostFile, doGet} from '../BaseAPI.js';
 
-const url = process.env.FRONT_BACKEND_URL;
+const url = process.env.REACT_APP_FRONT_BACKEND_URL;
 
 export function fileUploader(fileInfo, token){
 	console.log("In File Uploader", token);
