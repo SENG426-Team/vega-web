@@ -2,7 +2,9 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import {uploader, listFiles, fetchcontent} from '../services/FileHandlerAPI.js';
 import fileUpload from 'express-fileupload';
+import { config } from 'dotenv';
 
+const env = config();
 const url = process.env.BACKEND_URL;
 
 let router = express();
