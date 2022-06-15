@@ -8,5 +8,3 @@ services:
     image: "venus/theswitch"
     ports:
       - "3000:3000"
-    links:
-      - "backend:be"
