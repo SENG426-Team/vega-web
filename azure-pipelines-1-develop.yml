@@ -39,7 +39,7 @@ stages:
         - task: Npm@1
           inputs:
             command: 'install'
-            workingDir: '$(Build.SourcesDirectory)/'
+            workingDir: '$(Build.SourcesDirectory)/server/'
         - task: ado-discord-webhook@1
           inputs:
             channelId: '984576484150738944'
@@ -62,43 +62,3 @@ stages:
             messageType: 'content'
             content: 'Azure Node.js Build Pipeline Failed During Test Task on Develop Branch'
           condition: failed()
-  - stage: Build
-    condition: succeeded()
-    displayName: Build and push stage
-    jobs:
-    - job: Build
-      displayName: Build
-      steps:
-      - task: DockerCompose@0
-        inputs:
-          containerregistrytype: 'Azure Container Registry'
-          azureSubscription: 'Azure for Students (57e6bbf2-2cd2-494f-b00c-fe76b431f0f1)'
-          azureContainerRegistry: '{"loginServer":"venusdevelopregistry.azurecr.io", "id" : "/subscriptions/57e6bbf2-2cd2-494f-b00c-fe76b431f0f1/resourceGroups/venus-spring/providers/Microsoft.ContainerRegistry/registries/venusdevelopregistry"}'
-          dockerComposeFile: '**/docker-compose-node.yml'
-          action: 'Build services'
-          includeLatestTag: true
-      - task: ado-discord-webhook@1
-        inputs:
-          channelId: '984576484150738944'
-          webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
-          name: 'Azure-Builds'
-          messageType: 'content'
-          content: 'Azure Node.js Build Pipeline Failed During Image Build Task on Develop Branch'
-        condition: failed()
-          
-      - task: DockerCompose@0
-        inputs:
-          containerregistrytype: 'Azure Container Registry'
-          azureSubscription: 'Azure for Students (57e6bbf2-2cd2-494f-b00c-fe76b431f0f1)'
-          azureContainerRegistry: '{"loginServer":"venusdevelopregistry.azurecr.io", "id" : "/subscriptions/57e6bbf2-2cd2-494f-b00c-fe76b431f0f1/resourceGroups/venus-spring/providers/Microsoft.ContainerRegistry/registries/venusdevelopregistry"}'
-          dockerComposeFile: '**/docker-compose-node.yml'
-          action: 'Push services'
-          includeLatestTag: true
-      - task: ado-discord-webhook@1
-        inputs:
-          channelId: '984576484150738944'
-          webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
-          name: 'Azure-Builds'
-          messageType: 'content'
-          content: 'Azure Node.js Build Pipeline Failed During Image Push Task on Develop Branch'
-        condition: failed()
