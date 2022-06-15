@@ -9,9 +9,10 @@ trigger:
     include:
     - master
   paths:
-    exclude:
-    - '*.yml'
+    include:
     - 'server/*'
+    exclude:
+    - '*'
 
 resources:
 - repo: self
@@ -45,7 +46,7 @@ stages:
             webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
             name: 'Azure-Builds'
             messageType: 'content'
-            content: 'Azure Frontend Build Pipeline Failed During Install Task on Master Branch'
+            content: 'Azure Node.js Build Pipeline Failed During Install Task on Master Branch'
           condition: failed()
         - task: Npm@1
           inputs:
@@ -59,7 +60,7 @@ stages:
             webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
             name: 'Azure-Builds'
             messageType: 'content'
-            content: 'Azure Frontend Build Pipeline Failed During Test Task on Master Branch'
+            content: 'Azure Node.js Build Pipeline Failed During Test Task on Master Branch'
           condition: failed()
   - stage: Scan
     condition: succeeded()
@@ -82,7 +83,7 @@ stages:
           webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
           name: 'Azure-Builds'
           messageType: 'content'
-          content: 'Azure Frontend Build Pipeline Failed During Scan Config task on Master Branch'
+          content: 'Azure Node.js Build Pipeline Failed During Scan Config task on Master Branch'
         condition: failed()
       - task: SonarQubeAnalyze@5
       - task: ado-discord-webhook@1
@@ -91,7 +92,7 @@ stages:
           webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
           name: 'Azure-Builds'
           messageType: 'content'
-          content: 'Azure Frontend Build Pipeline Failed During Scan task on Master Branch'
+          content: 'Azure Node.js Build Pipeline Failed During Scan task on Master Branch'
         condition: failed()
       - task: SonarQubePublish@5
         inputs:
@@ -102,7 +103,7 @@ stages:
           webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
           name: 'Azure-Builds'
           messageType: 'content'
-          content: 'Azure Frontend Build Pipeline Failed During Publish Scan Task on Master Branch'
+          content: 'Azure Node.js Build Pipeline Failed During Publish Scan Task on Master Branch'
         condition: failed()
   - stage: Build
     condition: succeeded()
@@ -116,7 +117,7 @@ stages:
           containerregistrytype: 'Azure Container Registry'
           azureSubscription: 'Azure for Students (57e6bbf2-2cd2-494f-b00c-fe76b431f0f1)'
           azureContainerRegistry: '{"loginServer":"venusspringregistry.azurecr.io", "id" : "/subscriptions/57e6bbf2-2cd2-494f-b00c-fe76b431f0f1/resourceGroups/venus-spring/providers/Microsoft.ContainerRegistry/registries/venusspringregistry"}'
-          dockerComposeFile: '**/docker-compose.yml'
+          dockerComposeFile: '**/docker-compose-node.yml'
           action: 'Build services'
           includeLatestTag: true
       - task: ado-discord-webhook@1
@@ -125,7 +126,7 @@ stages:
           webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
           name: 'Azure-Builds'
           messageType: 'content'
-          content: 'Azure Frontend Build Pipeline Failed During Image Build Task on Master Branch'
+          content: 'Azure Node.js Build Pipeline Failed During Image Build Task on Master Branch'
         condition: failed()
           
       - task: DockerCompose@0
@@ -133,7 +134,7 @@ stages:
           containerregistrytype: 'Azure Container Registry'
           azureSubscription: 'Azure for Students (57e6bbf2-2cd2-494f-b00c-fe76b431f0f1)'
           azureContainerRegistry: '{"loginServer":"venusspringregistry.azurecr.io", "id" : "/subscriptions/57e6bbf2-2cd2-494f-b00c-fe76b431f0f1/resourceGroups/venus-spring/providers/Microsoft.ContainerRegistry/registries/venusspringregistry"}'
-          dockerComposeFile: '**/docker-compose.yml'
+          dockerComposeFile: '**/docker-compose-node.yml'
           action: 'Push services'
           includeLatestTag: true
       - task: ado-discord-webhook@1
@@ -142,5 +143,5 @@ stages:
           webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
           name: 'Azure-Builds'
           messageType: 'content'
-          content: 'Azure Frontend Build Pipeline Failed During Image Push Task on Master Branch'
+          content: 'Azure Node.js Build Pipeline Failed During Image Push Task on Master Branch'
         condition: failed()
