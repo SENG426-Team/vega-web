@@ -21,7 +21,7 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'c5164e33-8dea-44e4-ba9b-fef08505a0f1'
   imageRepository: 'vegawebgit'
-  containerRegistry: 'venusapp.azurecr.io'
+  containerRegistry: 'venusdevelopregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
 
@@ -73,7 +73,7 @@ stages:
         inputs:
           containerregistrytype: 'Azure Container Registry'
           azureSubscription: 'Azure for Students (57e6bbf2-2cd2-494f-b00c-fe76b431f0f1)'
-          azureContainerRegistry: '{"loginServer":"venusspringregistry.azurecr.io", "id" : "/subscriptions/57e6bbf2-2cd2-494f-b00c-fe76b431f0f1/resourceGroups/venus-spring/providers/Microsoft.ContainerRegistry/registries/venusspringregistry"}'
+          azureContainerRegistry: '{"loginServer":"venusdevelopregistry.azurecr.io", "id" : "/subscriptions/57e6bbf2-2cd2-494f-b00c-fe76b431f0f1/resourceGroups/venus-spring/providers/Microsoft.ContainerRegistry/registries/venusdevelopregistry"}'
           dockerComposeFile: '**/docker-compose-node.yml'
           action: 'Build services'
           includeLatestTag: true
@@ -90,7 +90,7 @@ stages:
         inputs:
           containerregistrytype: 'Azure Container Registry'
           azureSubscription: 'Azure for Students (57e6bbf2-2cd2-494f-b00c-fe76b431f0f1)'
-          azureContainerRegistry: '{"loginServer":"venusspringregistry.azurecr.io", "id" : "/subscriptions/57e6bbf2-2cd2-494f-b00c-fe76b431f0f1/resourceGroups/venus-spring/providers/Microsoft.ContainerRegistry/registries/venusspringregistry"}'
+          azureContainerRegistry: '{"loginServer":"venusdevelopregistry.azurecr.io", "id" : "/subscriptions/57e6bbf2-2cd2-494f-b00c-fe76b431f0f1/resourceGroups/venus-spring/providers/Microsoft.ContainerRegistry/registries/venusdevelopregistry"}'
           dockerComposeFile: '**/docker-compose-node.yml'
           action: 'Push services'
           includeLatestTag: true
