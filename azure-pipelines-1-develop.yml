@@ -48,17 +48,3 @@ stages:
             messageType: 'content'
             content: 'Azure Node.js Build Pipeline Failed During Install Task on Develop Branch'
           condition: failed()
-        - task: Npm@1
-          inputs:
-            command: 'custom'
-            workingDir: '$(Build.SourcesDirectory)/'
-            customCommand: 'run test:ci'
-          condition: succeeded()
-        - task: ado-discord-webhook@1
-          inputs:
-            channelId: '984576484150738944'
-            webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
-            name: 'Azure-Builds'
-            messageType: 'content'
-            content: 'Azure Node.js Build Pipeline Failed During Test Task on Develop Branch'
-          condition: failed()
