@@ -4,7 +4,13 @@
 
 pr: none
 trigger:
-- master
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - '*.yml'
+    - 'server/*'
 
 resources:
 - repo: self
@@ -38,7 +44,7 @@ stages:
             webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
             name: 'Azure-Builds'
             messageType: 'content'
-            content: 'Azure Frontend Build Pipeline Failed During Install Task'
+            content: 'Azure Frontend Build Pipeline Failed During Install Task on Master Branch'
           condition: failed()
         - task: Npm@1
           inputs:
@@ -52,7 +58,7 @@ stages:
             webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
             name: 'Azure-Builds'
             messageType: 'content'
-            content: 'Azure Frontend Build Pipeline Failed During Test Task'
+            content: 'Azure Frontend Build Pipeline Failed During Test Task on Master Branch'
           condition: failed()
   - stage: Scan
     condition: succeeded()
@@ -75,7 +81,7 @@ stages:
           webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
           name: 'Azure-Builds'
           messageType: 'content'
-          content: 'Azure Frontend Build Pipeline Failed During Scan Config task'
+          content: 'Azure Frontend Build Pipeline Failed During Scan Config task on Master Branch'
         condition: failed()
       - task: SonarQubeAnalyze@5
       - task: ado-discord-webhook@1
@@ -84,7 +90,7 @@ stages:
           webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
           name: 'Azure-Builds'
           messageType: 'content'
-          content: 'Azure Frontend Build Pipeline Failed During Scan task'
+          content: 'Azure Frontend Build Pipeline Failed During Scan task on Master Branch'
         condition: failed()
       - task: SonarQubePublish@5
         inputs:
@@ -95,7 +101,7 @@ stages:
           webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
           name: 'Azure-Builds'
           messageType: 'content'
-          content: 'Azure Frontend Build Pipeline Failed During Publish Scan Task'
+          content: 'Azure Frontend Build Pipeline Failed During Publish Scan Task on Master Branch'
         condition: failed()
   - stage: Build
     condition: succeeded()
@@ -118,7 +124,7 @@ stages:
           webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
           name: 'Azure-Builds'
           messageType: 'content'
-          content: 'Azure Frontend Build Pipeline Failed During Image Build Task'
+          content: 'Azure Frontend Build Pipeline Failed During Image Build Task on Master Branch'
         condition: failed()
           
       - task: DockerCompose@0
@@ -135,5 +141,5 @@ stages:
           webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
           name: 'Azure-Builds'
           messageType: 'content'
-          content: 'Azure Frontend Build Pipeline Failed During Image Push Task'
+          content: 'Azure Frontend Build Pipeline Failed During Image Push Task on Master Branch'
         condition: failed()
