@@ -1,0 +1,103 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+pr: none
+trigger:
+  batch: true
+  branches:
+    include:
+    - develop
+  paths:
+    exclude:
+    - '*.yml'
+    - 'server/*'
+
+resources:
+- repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: 'c5164e33-8dea-44e4-ba9b-fef08505a0f1'
+  imageRepository: 'vegawebgit'
+  containerRegistry: 'venusapp.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  tag: '$(Build.BuildId)'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+pool:
+  vmImage: $(vmImageName)
+
+stages:
+  - stage: Test
+    displayName: Test Stage
+    jobs:
+      - job: Test
+        steps:
+        - task: Npm@1
+          inputs:
+            command: 'install'
+            workingDir: '$(Build.SourcesDirectory)/'
+        - task: ado-discord-webhook@1
+          inputs:
+            channelId: '984576484150738944'
+            webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
+            name: 'Azure-Builds'
+            messageType: 'content'
+            content: 'Azure Frontend Build Pipeline Failed During Install Task on Develop Branch'
+          condition: failed()
+        - task: Npm@1
+          inputs:
+            command: 'custom'
+            workingDir: '$(Build.SourcesDirectory)/'
+            customCommand: 'run test:ci'
+          condition: succeeded()
+        - task: ado-discord-webhook@1
+          inputs:
+            channelId: '984576484150738944'
+            webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
+            name: 'Azure-Builds'
+            messageType: 'content'
+            content: 'Azure Frontend Build Pipeline Failed During Test Task on Develop Branch'
+          condition: failed()
+  - stage: Build
+    condition: succeeded()
+    displayName: Build and push stage
+    jobs:
+    - job: Build
+      displayName: Build
+      steps:
+      - task: DockerCompose@0
+        inputs:
+          containerregistrytype: 'Azure Container Registry'
+          azureSubscription: 'Azure for Students (57e6bbf2-2cd2-494f-b00c-fe76b431f0f1)'
+          azureContainerRegistry: '{"loginServer":"venusspringregistry.azurecr.io", "id" : "/subscriptions/57e6bbf2-2cd2-494f-b00c-fe76b431f0f1/resourceGroups/venus-spring/providers/Microsoft.ContainerRegistry/registries/venusspringregistry"}'
+          dockerComposeFile: '**/docker-compose.yml'
+          action: 'Build services'
+          includeLatestTag: true
+      - task: ado-discord-webhook@1
+        inputs:
+          channelId: '984576484150738944'
+          webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
+          name: 'Azure-Builds'
+          messageType: 'content'
+          content: 'Azure Frontend Build Pipeline Failed During Image Build Task on Develop Branch'
+        condition: failed()
+          
+      - task: DockerCompose@0
+        inputs:
+          containerregistrytype: 'Azure Container Registry'
+          azureSubscription: 'Azure for Students (57e6bbf2-2cd2-494f-b00c-fe76b431f0f1)'
+          azureContainerRegistry: '{"loginServer":"venusspringregistry.azurecr.io", "id" : "/subscriptions/57e6bbf2-2cd2-494f-b00c-fe76b431f0f1/resourceGroups/venus-spring/providers/Microsoft.ContainerRegistry/registries/venusspringregistry"}'
+          dockerComposeFile: '**/docker-compose.yml'
+          action: 'Push services'
+          includeLatestTag: true
+      - task: ado-discord-webhook@1
+        inputs:
+          channelId: '984576484150738944'
+          webhookKey: 'BQwMEmgOqbYQfibgD-qk3VFzSPx_MUKy9_CvdbYGGJw0_rSkmM5HOGmWXQVb28MUNAJj'
+          name: 'Azure-Builds'
+          messageType: 'content'
+          content: 'Azure Frontend Build Pipeline Failed During Image Push Task on Develop Branch'
+        condition: failed()
