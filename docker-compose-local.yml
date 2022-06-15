@@ -13,8 +13,6 @@ services:
       context: ./
       dockerfile: ./Dockerfile
     image: "venus/theswitch"
-    environment:
-      - REACT_APP_FRONT_BACKEND_URL=$${FRONT_BACKEND}
     ports:
       - "3000:3000"
     links:
