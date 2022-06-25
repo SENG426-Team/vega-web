@@ -8,7 +8,8 @@ const PasswordGenerator = (props) => {
 	const {user} = useContext(UserContext);
 
     const [usePattern, setUsePattern] = useState(false);
-    const [generatedPass, setGenPass] = useState([]);
+    const [generatedSamplePass, setSamplePass] = useState([]);
+    const [generatedPass, setGeneratedPass] = useState("");
 
     const [currentStrength, setCurrentStrength] = useState(2);
 
@@ -33,8 +34,16 @@ const PasswordGenerator = (props) => {
         e.preventDefault();
         setShowPassStrengthCheck(true);
     }
-    const handleShowGenPass = (e) => setShowGenPass(true);
-    const handlePrePass = (e) => setPreGenPass(true);
+    const handleShowGenPass = (e) => {
+        e.preventDefault();
+        generateSecurePassword();
+        setShowGenPass(true);
+    }
+    const handlePrePass = (e) => {
+        e.preventDefault();
+        generatePreviewPasses();
+        setPreGenPass(true);
+    }
     const closeShowPassStrengthCheck = (e) => setShowPassStrengthCheck(false);
     const closeShowGenPass = (e) => setShowGenPass(false);
     const closePrePass = (e) => setPreGenPass(false);
@@ -57,11 +66,16 @@ const PasswordGenerator = (props) => {
         else{
             //using pattern
         }
+        setGeneratedPass("testpassword");
+    }
+
+    const generatePreviewPasses = (e) => {
+        setSamplePass(['test1', 'test2', 'test3']);
     }
 
     const listPasswords = (e) =>{
-        if(generatedPass){
-            const passList = generatedPass.map((password, index) =>
+        if(generatedSamplePass){
+            const passList = generatedSamplePass.map((password, index) =>
                     <li key={index} >
                         {password}
                     </li>
@@ -69,11 +83,6 @@ const PasswordGenerator = (props) => {
         return (<ul> {passList} </ul>);
         }
 
-    }
-
-    const test = (e) => {
-        e.preventDefault();
-        setGenPass(['test1', 'test2', 'test3']);
     }
 
 	useEffect(() => {
@@ -105,14 +114,13 @@ const PasswordGenerator = (props) => {
                     <Form.Control disabled={!usePattern} />
                 </Form.Group>
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" onClick={handleShowGenPass}>
                 Generate Secure Password
             </Button>
-            <Button variant="primary" type="submit" onClick={test}>
+            <Button variant="primary" type="submit" onClick={handlePrePass}>
                 Preview Secure Passwords
             </Button>
         </Form>
-        {listPasswords()}
         <Form>
         <Button variant="primary" type="submit" onClick={handleShowPassStrengthCheck}>
             Test Password Strength
@@ -130,6 +138,30 @@ const PasswordGenerator = (props) => {
           <Modal.Footer>
             <Button variant="primary">
               Check Strength
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={showGenPass} onHide={closeShowGenPass}>
+          <Modal.Header closeButton>
+            <Modal.Title>Generated Password</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{generatedPass}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={closeShowGenPass}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={showPrePass} onHide={closePrePass}>
+          <Modal.Header closeButton>
+            <Modal.Title>Preview Passwords</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{listPasswords()}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={closePrePass}>
+              Close
             </Button>
           </Modal.Footer>
         </Modal>
