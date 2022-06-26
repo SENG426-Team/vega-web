@@ -14,7 +14,7 @@ router.use(fileUpload({
 }));
 
 router.post("/add_secret", (req,res) => {
-    add_secret(url+"/venus/admin/add_secret", req.body, req.headers)
+    add_secret(url+"/venus/secret/add_secret", req.body)
     		.then(response => {
     			console.log("Response", response);
     			res.send(response);
