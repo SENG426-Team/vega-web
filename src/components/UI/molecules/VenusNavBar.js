@@ -22,11 +22,11 @@ const VenusNavBar = (props) => {
   }
 
   if(user.role == "ROLE_STAFF" || user.role == "ROLE_ADMIN"){
-    resources = <Nav.Link href="/resources">Resources</Nav.Link>
+    resources = <Nav.Link href="/resources">Resources</Nav.Link>;
   }
 
   if(user.role == "ROLE_ADMIN"){
-    adminpanel = <Nav.Link href="/adminpanel">Admin</Nav.Link>
+    adminpanel = <Nav.Link href="/adminpanel">Admin</Nav.Link>;
   }
 
   return (
