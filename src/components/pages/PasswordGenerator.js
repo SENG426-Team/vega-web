@@ -10,8 +10,11 @@ const PasswordGenerator = (props) => {
     const [usePattern, setUsePattern] = useState(false);
     const [generatedSamplePass, setSamplePass] = useState([]);
     const [generatedPass, setGeneratedPass] = useState("");
+	const [inputedPass, setInputedPass] = useState("");
 
-    const [currentStrength, setCurrentStrength] = useState(2);
+	const [pattern, setPattern] = useState("");
+
+	const [strength, setStrength] = useState(0);
 
     //Checkbox sets
     const [useUpper, setUseUpper] = useState(true);
@@ -32,6 +35,7 @@ const PasswordGenerator = (props) => {
     //Modal Handlers
     const handleShowPassStrengthCheck = (e) => {
         e.preventDefault();
+		setStrength("");
         setShowPassStrengthCheck(true);
     }
     const handleShowGenPass = (e) => {
@@ -57,20 +61,207 @@ const PasswordGenerator = (props) => {
         }
     }
 
-    const generateSecurePassword = (e) => {
-        let uppers = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+	const getPassStrenth = (entropyBits) =>{
+		if(entropyBits < 35){
+			return "Very Weak"
+		}
+		else if (entropyBits < 80){
+			return "Weak"
+		}
+		else if (entropyBits < 120){
+			return "Strong"
+		}
+		else{
+			return "Very Strong"
+		}
+	}
 
+	const calcPassStrength = () => {
+
+		let uppers = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+		let lowers = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+		let digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+		let special = ["!", "@", "#", "$", "%", "^", "&", "*", "?", "-", "_"];
+		let brackets = ["[", "]", "(", ")", "{", "}", "<", ">"];
+
+		let upperPresent = false;
+		let lowerPresent = false;
+		let digitPresent = false;
+		let specialPresent = false;
+		let bracketPresent = false;
+
+		let pass = inputedPass;
+		for(let i = 0; i < pass.length; i++){
+			if(uppers.includes(pass.charAt(i))){
+				upperPresent = true;
+			}
+			else if(lowers.includes(pass.charAt(i))){
+				lowerPresent = true;
+			}
+			else if(digits.includes(pass.charAt(i))){
+				digitPresent = true;
+			}
+			else if(special.includes(pass.charAt(i))){
+				specialPresent = true;
+			}
+			else if(brackets.includes(pass.charAt(i))){
+				bracketPresent = true;
+			}
+
+		}
+
+		let numCharSet = 0;
+		if(upperPresent){
+			numCharSet = numCharSet + 26;
+		}
+		if(lowerPresent){
+			numCharSet = numCharSet + 26;
+		}
+		if(digitPresent){
+			numCharSet = numCharSet + 10;
+		}
+		if(specialPresent){
+			numCharSet = numCharSet + 11
+		}
+		if(bracketPresent){
+			numCharSet = numCharSet + 8;
+		}
+
+		if(numCharSet == 0){
+			setStrength("No Password Given");
+		}
+		else{
+			setStrength(getPassStrenth(Math.log2(numCharSet) * pass.length));
+		}
+
+	}
+
+    const generateSecurePassword = (e) => {
+        let uppers = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+		let lowers = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+		let digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+		let minus = ["-"];
+		let underline = ["_"];
+		let special = ["!", "@", "#", "$", "%", "^", "&", "*", "?"];
+		let brackets = ["[", "]", "(", ")", "{", "}", "<", ">"];
+
+		let characterSet = [];
+
+		if(!(useUpper || useLower || useDigits || useMinus || useUnderline || useSpecial || useBrackets)){
+			characterSet = characterSet.concat(uppers);
+			characterSet = characterSet.concat(lowers);
+			characterSet = characterSet.concat(digits);
+		}
+
+		if(useUpper){
+			characterSet = characterSet.concat(uppers);
+		}
+		if(useLower){
+			characterSet = characterSet.concat(lowers);
+		}
+		if(useDigits){
+			characterSet = characterSet.concat(digits);
+		}
+		if(useMinus){
+			characterSet = characterSet.concat(minus);
+		}
+		if(useUnderline){
+			characterSet = characterSet.concat(underline);
+		}
+		if(useSpecial){
+			characterSet = characterSet.concat(special);
+		}
+		if(useBrackets){
+			characterSet = characterSet.concat(brackets);
+		}
+
+		let shuffledCharacterSet = characterSet
+		  .map(value => ({ value, sort: Math.random() }))
+		  .sort((a, b) => a.sort - b.sort)
+		  .map(({ value }) => value)
+
+
+		//using character set
         if(!usePattern){
-            //using character set
+			setStrength(getPassStrenth(Math.log2(shuffledCharacterSet.length) * passLength));
+			let password = ""
+			for(let i = 0; i < passLength; i++){
+				password = password + shuffledCharacterSet[Math.floor(Math.random() * shuffledCharacterSet.length)]
+			}
+			setGeneratedPass(password);
+			return password;
         }
+		//using pattern
         else{
-            //using pattern
+			let new_special = special.concat(minus).concat(underline);
+			if(pattern.length <= 0){
+				setGeneratedPass("No Pattern Supplied")
+				return "No Pattern Supplied";
+			}
+			let password = "";
+			let upperPresent = false;
+			let lowerPresent = false;
+			let digitPresent = false;
+			let specialPresent = false;
+			let bracketPresent = false;
+
+			for(let i = 0; i < pattern.length; i++){
+				let patternChar = pattern.charAt(i);
+				if(patternChar == "A"){
+					upperPresent = true
+					password = password + uppers[Math.floor(Math.random() * uppers.length)]
+				}
+				else if(patternChar == "a"){
+					lowerPresent = true
+					password = password + lowers[Math.floor(Math.random() * lowers.length)]
+				}
+				else if (patternChar == "s"){
+					specialPresent = true
+					password = password + new_special[Math.floor(Math.random() * new_special.length)]
+				}
+				else if (patternChar == "d"){
+					digitPresent = true
+					password = password + digits[Math.floor(Math.random() * digits.length)]
+				}
+				else if (patternChar == "b"){
+					bracketPresent = true
+					password = password + brackets[Math.floor(Math.random() * brackets.length)]
+				}
+				else{
+					setGeneratedPass("Invalid Pattern")
+					return "Invalid Pattern"
+				}
+			}
+			let numCharSet = 0;
+			if(upperPresent){
+				numCharSet = numCharSet + 26;
+			}
+			if(lowerPresent){
+				numCharSet = numCharSet + 26;
+			}
+			if(digitPresent){
+				numCharSet = numCharSet + 10;
+			}
+			if(specialPresent){
+				numCharSet = numCharSet + 11
+			}
+			if(bracketPresent){
+				numCharSet = numCharSet + 8;
+			}
+			setStrength(getPassStrenth(Math.log2(numCharSet) * password.length))
+			setGeneratedPass(password);
+			return password
         }
-        setGeneratedPass("testpassword");
+
+
     }
 
     const generatePreviewPasses = (e) => {
-        setSamplePass(['test1', 'test2', 'test3']);
+		let samplePasses = [];
+		for(let i = 0; i < 10; i++){
+			samplePasses.push(generateSecurePassword());
+		}
+        setSamplePass(samplePasses);
     }
 
     const listPasswords = (e) =>{
@@ -86,8 +277,6 @@ const PasswordGenerator = (props) => {
     }
 
 	useEffect(() => {
-		console.log("JWT is",user.jwt)
-			console.log("Inside useEffect")
 	}, [user])
 
     useEffect(() =>{
@@ -100,18 +289,18 @@ const PasswordGenerator = (props) => {
             <Form.Group className="mb-3" controlId="radioField">
                 <Form.Check type="radio" label="Generate using character set" defaultChecked={true} name="test" onChange={whichPattern} value={0}/>
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Range defaultValue={20} disabled={usePattern} onChange={(e) => setPassLength(e.target.value)}/> {passLength}
-                    <Form.Check type="checkbox" label="Upper-Case (A, B, C, ...)" defaultChecked={true} disabled={usePattern} onClick={() => setUseUpper(!useUpper)}/>
-                    <Form.Check type="checkbox" label="Lower-Case (a, b, c, ...)" defaultChecked={true} disabled={usePattern} onClick={() => setUseLower(!useLower)}/>
-                    <Form.Check type="checkbox" label="Digits (1, 2, 3, ...)" defaultChecked={true} disabled={usePattern} onClick={() => setUseDigits(!useDigits)}/>
+                    <Form.Range defaultValue={20} disabled={usePattern} onChange={(e) => setPassLength(e.target.value)} max={45} min={8} style={{width: "50%"}}/> {passLength}
+                    <Form.Check type="checkbox" label="Upper-Case (A, B, C, ..., Z)" defaultChecked={true} disabled={usePattern} onClick={() => setUseUpper(!useUpper)}/>
+                    <Form.Check type="checkbox" label="Lower-Case (a, b, c, ..., z)" defaultChecked={true} disabled={usePattern} onClick={() => setUseLower(!useLower)}/>
+                    <Form.Check type="checkbox" label="Digits (0, 1, 2, ..., 9)" defaultChecked={true} disabled={usePattern} onClick={() => setUseDigits(!useDigits)}/>
                     <Form.Check type="checkbox" label="Minus (-)" disabled={usePattern} onClick={() => setUseMinus(!useMinus)}/>
                     <Form.Check type="checkbox" label="Underline (_)" disabled={usePattern} onClick={() => setUseUnderline(!useUnderline)}/>
-                    <Form.Check type="checkbox" label="Special (!, @, #, $, ...)" disabled={usePattern} onClick={() => setUseSpecial(!useSpecial)}/>
+                    <Form.Check type="checkbox" label="Special (!, @, #, $, %, ^, &, *, ?)" disabled={usePattern} onClick={() => setUseSpecial(!useSpecial)}/>
                     <Form.Check type="checkbox" label="Brackets ([,],(,),{,},<, >)" disabled={usePattern} onClick={() => setUseBrackets(!useBrackets)}/>
                 </Form.Group>
-                <Form.Check type="radio" label="Generate using pattern" name="test" onChange={whichPattern} value={1}/>
+                <Form.Check type="radio" label="Generate using pattern (Valid Chars: a = Lowercase, A = Uppercase, d = Digits, b = Brackets, s = Special)" name="test" onChange={whichPattern} value={1}/>
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Control disabled={!usePattern} />
+                    <Form.Control disabled={!usePattern} onChange={(e) => setPattern(e.target.value)} maxLength={45}/>
                 </Form.Group>
             </Form.Group>
             <Button variant="primary" type="submit" onClick={handleShowGenPass}>
@@ -131,12 +320,12 @@ const PasswordGenerator = (props) => {
           <Modal.Header closeButton>
             <Modal.Title>Check Password Strength</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Password Strength: {currentStrength}</Modal.Body>
+          <Modal.Body>Password Strength: {strength}</Modal.Body>
           <Form>
-          <Form.Control/>
+          <Form.Control onChange={(e) => setInputedPass(e.target.value)} maxLength={50}/>
           </Form>
           <Modal.Footer>
-            <Button variant="primary">
+            <Button variant="primary" onClick={calcPassStrength}>
               Check Strength
             </Button>
           </Modal.Footer>
@@ -146,7 +335,7 @@ const PasswordGenerator = (props) => {
           <Modal.Header closeButton>
             <Modal.Title>Generated Password</Modal.Title>
           </Modal.Header>
-          <Modal.Body>{generatedPass}</Modal.Body>
+          <Modal.Body>{generatedPass} <br/> Password Strength: {strength}</Modal.Body>
           <Modal.Footer>
             <Button variant="primary" onClick={closeShowGenPass}>
               Close
