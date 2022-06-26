@@ -1,6 +1,7 @@
 import auth from './auth/AuthenticationManager.js';
 import fileUploader from './controller/FileUploadController.js';
-import adminPanel from './controller/AdminPanelController.js'
+import secret from './controller/SecretController.js';
+import adminPanel from './controller/AdminPanelController.js';
 import express from 'express';
 import { config } from 'dotenv';
 import cors from 'cors';
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 
 app.use("/api/login", auth);
 app.use("/api/venus", fileUploader)
+app.use("/api/venus/secret", secret)
 app.use("/api/venus/admin", adminPanel)
 
 app.listen(port, () => {

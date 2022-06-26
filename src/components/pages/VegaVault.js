@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom";
 import {Button, Row, Col} from 'react-bootstrap';
 import SimplePageLayout from '../templates/SimplePageLayout.js';
 import UploadFile from '../UI/molecules/UploadFile.js'
-import {fileUploader} from '../../service/FileUpload/FileUploader.js';
+import {secretHandler} from '../../service/SecretHandler/SecretHandler.js';
 import {UserContext} from '../../auth/UserProvider.js';
 
 
@@ -19,8 +19,15 @@ const VegaVault = (props) => {
 
 	const handleSubmission = () => {
 		const formData = new FormData();
-		formData.append("file", selectedFile);
-		fileUploader(formData, user.jwt)
+		var today = new Date();
+		var date = today.getFullYear()+"-"+(today.getMonth()+1)+"-"+(today.getDay());
+
+		formData.append("secret_id", 0);
+		formData.append("username", user.username);
+		formData.append("date_created", date);
+		formData.append("secret", selectedFile);
+		
+		secretHandler(formData)
 			.then(res => {
 				console.log("Response", res);
 			})
@@ -29,7 +36,7 @@ const VegaVault = (props) => {
 
 	return (
 		<SimplePageLayout>
-			<UploadFile title={"Upload Secret"} 
+			<UploadFile title={"Add Secret"} 
 						changeHandler={changeHandler}
 						handleSubmission={handleSubmission}>
 			</UploadFile>
