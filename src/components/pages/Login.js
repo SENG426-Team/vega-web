@@ -17,9 +17,14 @@ const Login = (props) => {
 	function onSubmit(userInfo){
 		login(userInfo)
 			.then(res => {
+				console.log(res.code)
 				if(res.code == 401){
 					console.log("Authentication Error");
 					setErrorMSG("Authentication Error: Username and/or Password is Incorrect");
+				}
+				else if (res.code == "ECONNREFUSED"){
+					console.log("Cannot Reach Backend Server");
+					setErrorMSG("Authentication Service Temporarily Unavailable");
 				}
 				else{
 					setErrorMSG("");
