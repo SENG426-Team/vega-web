@@ -1,4 +1,5 @@
 import {useState, useContext} from 'react';
+
 import {useHistory} from "react-router-dom";
 import {Button, Row, Col} from 'react-bootstrap';
 import SimplePageLayout from '../templates/SimplePageLayout.js';
@@ -18,20 +19,26 @@ const VegaVault = (props) => {
 	};
 
 	const handleSubmission = () => {
-		const formData = new FormData();
-		var today = new Date();
-		var date = today.getFullYear()+"-"+(today.getMonth()+1)+"-"+(today.getDay());
+		/*  The conversion from File to Base64 was found using the below citation:
+			https://pqina.nl/blog/convert-a-file-to-a-base64-string-with-javascript/
+		*/
+		const reader = new FileReader();
+		reader.readAsDataURL(selectedFile);
 
-		formData.append("secret_id", 0);
-		formData.append("username", user.username);
-		formData.append("date_created", date);
-		formData.append("secret", selectedFile);
-		
-		secretHandler(formData)
+		reader.onloadend = () => {
+			const base64String = reader.result
+				.replace('data:', '')
+				.replace(/^.+,/, '');
+
+			const today = new Date();
+			const date = today.getFullYear()+"-"+(today.getMonth()+1)+"-"+(today.getDay());
+			const data = {"secret_id": 0, "username": user.username, "date_created": date, "secret": base64String};
+
+			secretHandler(data)
 			.then(res => {
 				console.log("Response", res);
 			})
-
+		};
 	}
 
 	return (
