@@ -27,11 +27,16 @@ const AdminPanel = (props) => {
 
 
 	const changeRole = (evt, username) => {
-		console.log(evt.target.value, username)
-		var role = evt.target.value
-		changeAccountRole(username, role, user.jwt)
-		.then(resp => 
-			console.log("Changed Roles"))
+		if (username === "admin@venus.com") {
+			alert("Admin user is not permitted to hange roles")
+			evt.target.value = "Default"
+		} else {
+			console.log(evt.target.value, username)
+			var role = evt.target.value
+			changeAccountRole(username, role, user.jwt)
+			.then(resp => 
+				console.log("Changed Roles"))
+		}
 	}
 
 	const listOfUsersHTML = () => {
@@ -40,7 +45,7 @@ const AdminPanel = (props) => {
 				<a href="#">Enable User</a></td>
 				<td>
 					<Form.Select aria-label="Floating label select example" onChange={(evt) => changeRole(evt, user.username)}>
-					    <option>Open this select menu</option>
+					    <option value="Default">Open this select menu</option>
 					    <option value="ROLE_STAFF">STAFF</option>
 					    <option value="ROLE_USER">USER</option>
   					</Form.Select>
