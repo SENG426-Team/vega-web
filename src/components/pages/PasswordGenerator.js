@@ -289,6 +289,8 @@ const PasswordGenerator = (props) => {
             <Form.Group className="mb-3" controlId="radioField">
                 <Form.Check type="radio" label="Generate using character set" defaultChecked={true} name="test" onChange={whichPattern} value={0}/>
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
+					<Form.Label>Password Length</Form.Label>
+					<br/>
                     <Form.Range defaultValue={20} disabled={usePattern} onChange={(e) => setPassLength(e.target.value)} max={45} min={8} style={{width: "50%"}}/> {passLength}
                     <Form.Check type="checkbox" label="Upper-Case (A, B, C, ..., Z)" defaultChecked={true} disabled={usePattern} onClick={() => setUseUpper(!useUpper)}/>
                     <Form.Check type="checkbox" label="Lower-Case (a, b, c, ..., z)" defaultChecked={true} disabled={usePattern} onClick={() => setUseLower(!useLower)}/>
