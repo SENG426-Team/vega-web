@@ -12,6 +12,7 @@ import NewsAndEvents from './components/pages/NewsAndEvents.js';
 import Resources from './components/pages/Resources.js';
 import AdminPanel from './components/pages/AdminPanel.js';
 import Leadership from './components/pages/Leadership.js';
+import AboutUs from './components/pages/AboutUs';
 import UserRegistration from './components/pages/UserRegistration.js';
 import {UserProvider} from './auth/UserProvider.js';
 import {UserContext} from './auth/UserProvider.js';
@@ -21,12 +22,12 @@ import UserAccount from './components/pages/UserAccount.js';
 require('dotenv').config();
 
 function App() {
-  
+
 
   const {user, setUserInfo, logout} = useContext(UserContext);
 
   return (
-   <UserProvider value ={user, setUserInfo, logout}> 
+   <UserProvider value ={user, setUserInfo, logout}>
         <Switch>
         	<Route path="/" component={HomePageLayout} exact />
         	<Route path="/contactus" component={UserRegistration} exact />
@@ -34,6 +35,7 @@ function App() {
         	<Route path="/news" component={NewsAndEvents} />
         	<Route path="/platform" component={Platform} />
         	<Route path="/login" component={Login} />
+            <Route path= "/aboutus" component={AboutUs} />
           <Route path="/account" component={UserAccount} />
           <Route path="/resources" component={Resources} />
           <Route path="/adminpanel" component={AdminPanel} />
