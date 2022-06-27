@@ -7,16 +7,21 @@ const PasswordGenerator = (props) => {
 
 	const {user} = useContext(UserContext);
 
+	// state for radio buttons deciding on whether or not to use pattern
     const [usePattern, setUsePattern] = useState(false);
+
+	// state for holding the inputed and generated passwords
     const [generatedSamplePass, setSamplePass] = useState([]);
     const [generatedPass, setGeneratedPass] = useState("");
 	const [inputedPass, setInputedPass] = useState("");
 
+	// state for the inputed pattern
 	const [pattern, setPattern] = useState("");
 
+	// state for holding the current strength of the inputed or generated password
 	const [strength, setStrength] = useState(0);
 
-    //Checkbox sets
+    // state for checkboxes
     const [useUpper, setUseUpper] = useState(true);
     const [useLower, setUseLower] = useState(true);
     const [useDigits, setUseDigits] = useState(true);
@@ -25,9 +30,10 @@ const PasswordGenerator = (props) => {
     const [useSpecial, setUseSpecial] = useState(false);
     const [useBrackets, setUseBrackets] = useState(false);
 
+	// state for holding the length of passwords to be generated
     const [passLength, setPassLength] = useState(16);
 
-    //Modal
+    // state for showing Modals
     const [showPassStrengthCheck, setShowPassStrengthCheck] = useState(false);
     const [showGenPass, setShowGenPass] = useState(false);
     const [showPrePass, setPreGenPass] = useState(false);
@@ -52,6 +58,7 @@ const PasswordGenerator = (props) => {
     const closeShowGenPass = (e) => setShowGenPass(false);
     const closePrePass = (e) => setPreGenPass(false);
 
+	// function to toggle wether or not to generate using a pattern
     const whichPattern = (e) => {
         if(e.target.value == 0){
             setUsePattern(false);
@@ -61,6 +68,7 @@ const PasswordGenerator = (props) => {
         }
     }
 
+	// Maps an entropy bit value to a string indicating password strength
 	const getPassStrenth = (entropyBits) =>{
 		if(entropyBits < 35){
 			return "Very Weak"
@@ -76,6 +84,7 @@ const PasswordGenerator = (props) => {
 		}
 	}
 
+	// calculates password strength in entropy bits and then converts to a string representation
 	const calcPassStrength = () => {
 
 		let uppers = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
@@ -136,6 +145,7 @@ const PasswordGenerator = (props) => {
 
 	}
 
+	// Generates a secure password using the user defined character set or pattern
     const generateSecurePassword = (e) => {
         let uppers = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 		let lowers = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
@@ -256,6 +266,7 @@ const PasswordGenerator = (props) => {
 
     }
 
+	// appends a sample size of 10 passwords to a list to be displayed
     const generatePreviewPasses = (e) => {
 		let samplePasses = [];
 		for(let i = 0; i < 10; i++){
