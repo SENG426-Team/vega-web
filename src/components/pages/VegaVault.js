@@ -1,5 +1,5 @@
 import {useState, useContext} from 'react';
-
+import AES from 'crypto-js/aes'
 import {useHistory} from "react-router-dom";
 import {Button, Row, Col} from 'react-bootstrap';
 import SimplePageLayout from '../templates/SimplePageLayout.js';
@@ -19,6 +19,9 @@ const VegaVault = (props) => {
 	};
 
 	const handleSubmission = () => {
+		/*  The basic encryption can be found here:
+			https://tutorialzine.com/2013/11/javascript-file-encrypter
+		*/
 		/*  The conversion from File to Base64 was found using the below citation:
 			https://pqina.nl/blog/convert-a-file-to-a-base64-string-with-javascript/
 		*/
@@ -26,15 +29,19 @@ const VegaVault = (props) => {
 		reader.readAsDataURL(selectedFile);
 
 		reader.onloadend = () => {
-			const base64String = reader.result
-				.replace('data:', '')
-				.replace(/^.+,/, '');
-
+			const encrypted = AES.encrypt(reader.result, "encryptioncode");
+			const file_name = selectedFile.name;
 			const today = new Date();
 			const date = today.getFullYear()+"-"+(today.getMonth()+1)+"-"+(today.getDay());
-			const data = {"secret_id": 0, "username": user.username, "date_created": date, "secret": base64String};
-
-			secretHandler(data)
+			const secret_data = {
+								"username": user.username, 
+								"date_created": date,
+								"file_name": file_name,
+								"enc": encrypted.ciphertext
+								};
+			
+			console.log(secret_data);
+			secretHandler(secret_data)
 			.then(res => {
 				console.log("Response", res);
 			})

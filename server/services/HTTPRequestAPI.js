@@ -16,8 +16,12 @@ export async function doPostFile(url, data, headers){
   return await handleResponse(response);
 }
 
+export async function doPostSecret(url, data){
+  const response = await fetch(url, createRequestOptionsForSecret('POST', data));
+  return await handleResponse(response);
+}
+
 function createRequestOptionsForFile(method, data, headers){
-  console.log(headers);
   var requestOptions = {
     'method': method,
     'headers': {
@@ -26,7 +30,7 @@ function createRequestOptionsForFile(method, data, headers){
     },
     'formData': data
     }
-    console.log(requestOptions)
+  
   return requestOptions;
 }
 
