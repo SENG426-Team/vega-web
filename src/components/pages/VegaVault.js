@@ -1,17 +1,27 @@
-import {useState, useContext} from 'react';
+import {useState, useContext, useEffect} from 'react';
 import AES from 'crypto-js/aes'
 import {useHistory} from "react-router-dom";
-import {Button, Row, Col} from 'react-bootstrap';
+import {Button, Row, Col, Table} from 'react-bootstrap';
 import SimplePageLayout from '../templates/SimplePageLayout.js';
 import UploadFile from '../UI/molecules/UploadFile.js'
-import {secretHandler} from '../../service/SecretHandler/SecretHandler.js';
+import {secretHandler, fetchSecrets} from '../../service/SecretHandler/SecretHandler.js';
 import {UserContext} from '../../auth/UserProvider.js';
 
 
 const VegaVault = (props) => {
 	const [selectedFile, setSelectedFile] = useState();
 	const [isFilePicked, setIsFilePicked] = useState(false);
+	const [listOfSecrets, setSecrets] = useState([]);
 	const {user, setUserInfo} = useContext(UserContext);
+
+	useEffect(() => {
+		console.log("Inside useEffect")
+		var data = {username: user.username};
+		fetchSecrets(data)
+			.then(resp => {
+				setSecrets(resp)
+				});
+	}, [user]);
 
 	const changeHandler = (event) => {
 		setSelectedFile(event.target.files[0]);
@@ -40,12 +50,17 @@ const VegaVault = (props) => {
 								"enc": encrypted.ciphertext
 								};
 			
-			console.log(secret_data);
 			secretHandler(secret_data)
 			.then(res => {
 				console.log("Response", res);
 			})
 		};
+	}
+
+	const listOfSecretsHTML = () => {
+		if(listOfSecrets.length > 0){
+			return listOfSecrets.map((secret) => <tr><td>{secret.username}</td><td>{secret.file_name}</td><td>{secret.date_created}</td></tr>) 
+		}
 	}
 
 	return (
@@ -54,6 +69,23 @@ const VegaVault = (props) => {
 						changeHandler={changeHandler}
 						handleSubmission={handleSubmission}>
 			</UploadFile>
+			{listOfSecrets.length > 0 &&
+			<div>
+				<h4>Your Secrets</h4>
+				<Table>
+					<thead>
+						<tr>
+							<td>Owner</td>
+							<td>Secret Name</td>
+							<td>Date Created</td>
+						</tr>
+					</thead>
+					<tbody>
+						{listOfSecretsHTML()}
+					</tbody>
+				</Table>
+			</div>
+			}
 		</SimplePageLayout>
 		);
 }
