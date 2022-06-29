@@ -5,8 +5,12 @@ const ContactUsForm = (props) => {
       <Col className="mx-auto" xs={6}>
         <Form>
       			<Form.Group className="mb-3">
-        			<Form.Label>NAME</Form.Label>
-        			<Form.Control type="name" required="true"/>
+        			<Form.Label>FIRST NAME</Form.Label>
+        			<Form.Control type="name" required="true" maxLength={50}/>
+      			</Form.Group>
+				<Form.Group className="mb-3">
+        			<Form.Label>LAST NAME</Form.Label>
+        			<Form.Control type="name" required="true" maxLength={50}/>
       			</Form.Group>
       			<Form.Group className="mb-3">
         			<Form.Label>EMAIL</Form.Label>
