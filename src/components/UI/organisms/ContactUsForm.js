@@ -1,5 +1,5 @@
 import {Form, Button, Row, Col} from 'react-bootstrap';
-const UserRegistrationForm = (props) => {
+const ContactUsForm = (props) => {
 	return (
 		<Row>
       <Col className="mx-auto" xs={6}>
@@ -24,4 +24,4 @@ const UserRegistrationForm = (props) => {
     </Row>
 		);
 }
-export default UserRegistrationForm;
+export default ContactUsForm;
