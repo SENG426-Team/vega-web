@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import FormData from  'form-data';
 import Promise from 'promise';
 
 export async function doPost(url, data){
@@ -12,25 +13,28 @@ export async function doGet(url, token){
 }
 
 export async function doPostFile(url, data, headers){
-  const response = await fetch(url, createRequestOptionsForFile('POST', data, headers));
+  var file_name = data.file.name;
+  var file_data = data.file.data;
+  const response = await fetch(url, createRequestOptionsForFile('POST', file_name, file_data, headers));
   return await handleResponse(response);
 }
 
-export async function doPostSecret(url, data){
-  const response = await fetch(url, createRequestOptionsForSecret('POST', data));
-  return await handleResponse(response);
-}
+// https://developer.mozilla.org/en-US/docs/Web/API/FormData/append
+// For some reason, File.append("file", data.file) does not work.
+// Therefore, must use the longer version found in the above link
+function createRequestOptionsForFile(method, file_name, file_data, headers){
+  var File = new FormData();
+  File.append("file", file_data, file_name);
 
-function createRequestOptionsForFile(method, data, headers){
   var requestOptions = {
     'method': method,
     'headers': {
-      'Content-Type': undefined,
       'Authorization': headers['authorization']
     },
-    'formData': data
+    'body': File
     }
-  
+
+  console.log(requestOptions)
   return requestOptions;
 }
 
