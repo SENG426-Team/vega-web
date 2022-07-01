@@ -12,6 +12,7 @@ import NewsAndEvents from './components/pages/NewsAndEvents.js';
 import Resources from './components/pages/Resources.js';
 import AdminPanel from './components/pages/AdminPanel.js';
 import Leadership from './components/pages/Leadership.js';
+import AboutUs from './components/pages/AboutUs';
 import ContactUs from './components/pages/ContactUs.js';
 import {UserProvider} from './auth/UserProvider.js';
 import {UserContext} from './auth/UserProvider.js';
@@ -35,6 +36,7 @@ function App() {
         	<Route path="/news" component={NewsAndEvents} />
         	<Route path="/platform" component={Platform} />
         	<Route path="/login" component={Login} />
+            <Route path= "/aboutus" component={AboutUs} />
           <Route path="/account" component={UserAccount} />
           <Route path="/resources" component={Resources} />
           <Route path="/passwordgenerator" component={PasswordGenerator} />
