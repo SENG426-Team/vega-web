@@ -39,18 +39,24 @@ const VegaVault = (props) => {
 		reader.readAsDataURL(selectedFile);
 
 		reader.onloadend = () => {
-			const encrypted = AES.encrypt(reader.result, "encryptioncode");
+			// const encrypted = AES.encrypt(reader.result, "encryptioncode");
+
 			const file_name = selectedFile.name;
 			const today = new Date();
 			const date = today.getFullYear()+"-"+(today.getMonth()+1)+"-"+(today.getDay());
+
 			const secret_data = {
+								"secret_id": 0,
 								"username": user.username, 
 								"date_created": date,
 								"file_name": file_name,
 								"enc": encrypted.ciphertext
 								};
 			
-			secretHandler(secret_data)
+			const formData = new FormData();
+			formData.append("file", selectedFile);
+			formData.append("secret_data", secret_data);
+			secretHandler(formData)
 			.then(res => {
 				console.log("Response", res);
 			})
@@ -65,13 +71,14 @@ const VegaVault = (props) => {
 
 	return (
 		<SimplePageLayout>
+			<h3>Add</h3>
 			<UploadFile title={"Add Secret"} 
 						changeHandler={changeHandler}
 						handleSubmission={handleSubmission}>
 			</UploadFile>
 			{listOfSecrets.length > 0 &&
 			<div>
-				<h4>Your Secrets</h4>
+				<h3>Your Secrets</h3>
 				<Table>
 					<thead>
 						<tr>
