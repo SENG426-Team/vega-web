@@ -10,6 +10,7 @@ import Platform from './components/pages/Platform.js';
 import Login from './components/pages/Login.js';
 import NewsAndEvents from './components/pages/NewsAndEvents.js';
 import Resources from './components/pages/Resources.js';
+import VegaVault from './components/pages/VegaVault.js';
 import AdminPanel from './components/pages/AdminPanel.js';
 import Leadership from './components/pages/Leadership.js';
 import ContactUs from './components/pages/ContactUs.js';
@@ -36,6 +37,7 @@ function App() {
         	<Route path="/login" component={Login} />
           <Route path="/account" component={UserAccount} />
           <Route path="/resources" component={Resources} />
+          <Route path="/vegavault" component={VegaVault} />
           <Route path="/adminpanel" component={AdminPanel} />
         </Switch>
     </UserProvider>

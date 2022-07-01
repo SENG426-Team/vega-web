@@ -3,6 +3,7 @@ import SimplePageLayout from '../templates/SimplePageLayout.js';
 import {Form, Button, Row, Col} from 'react-bootstrap';
 import {fileUploader, fetchFiles, fetchData} from '../../service/FileUpload/FileUploader.js';
 import {UserContext} from '../../auth/UserProvider.js';
+import UploadFile from '../UI/molecules/UploadFile.js'
 
 const Resources = (props) => {	
 	
@@ -55,17 +56,12 @@ const Resources = (props) => {
 	}
 
 	if (user.role == "ROLE_ADMIN"){
-		uploadHTML = (<Row>
-				<Col className="mx-auto" xs={6}>
-					<Form.Group controlId="formFile" className="mb-3">
-    					<Form.Label>Resources Upload</Form.Label>
-    					<Form.Control type="file" onChange={changeHandler} />
- 					</Form.Group>
- 					<Button variant="primary" type="submit" onClick={handleSubmission}>
-    					Submit
-  					</Button>
- 				</Col>
-			</Row>);
+		uploadHTML = (<UploadFile title={"Upload Resources"} 
+								  changeHandler={changeHandler} 
+								  handleSubmission={handleSubmission}
+								  >
+
+					</UploadFile>);
 	}
 
 	return (
