@@ -58,4 +58,20 @@ router.get("/changerole", (req, res) => {
 	})
 })
 
+router.post("/adduser", (req, res) => {
+	console.log("Request: Add User")
+	const {username} = req.query;
+	const {role} = req.query;
+	addUser(`${url}/venus/admin/adduser?username=${username}&role=${role}`, req.headers)
+		.then(response => {
+			console.log("response", response);
+			res.send(response);
+		})
+		.catch(error => {
+			console.log("ERROR:", error);
+			res.send(error)
+		})
+
+}
+
 export default router;

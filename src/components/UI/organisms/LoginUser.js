@@ -2,7 +2,7 @@ import {Form, Button, Row, Col} from 'react-bootstrap';
 import React, { useState } from 'react';
 
 const LoginUser = ({onSubmit}) => {
-	
+
 	const [username, setUsername]  = useState('');
 	const [password, setPassword] = useState('');
 
@@ -30,8 +30,11 @@ const LoginUser = ({onSubmit}) => {
 	        			Submit
 	      			</Button>
     			</Form>
+
+
       		</Col>
    	 	</Row>
+
 		);
 }
 export default LoginUser;
