@@ -34,6 +34,7 @@ const VenusNavBar = (props) => {
         				{resources}
         				<Nav.Link href="#pricing">About us</Nav.Link>
         				<Nav.Link href="/contactus">Contact us</Nav.Link>
+                        <Nav.Link href="/registration">User Registration</Nav.Link>
               <Nav.Item className="float-right">
                 {logout}
               </Nav.Item>
