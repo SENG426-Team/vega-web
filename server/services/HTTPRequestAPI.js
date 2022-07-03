@@ -11,6 +11,11 @@ export async function doGet(url, token){
   return await handleResponse(response);
 }
 
+export async function doPostSecret(url, data, token){
+	const response = await fetch(url, createRequestOptions('POST', data, token));
+	return await handleResponse(response);
+}
+
 export async function doPostFile(url, data, headers){
   const response = await fetch(url, createRequestOptionsForFile('POST', data, headers));
   return await handleResponse(response);
