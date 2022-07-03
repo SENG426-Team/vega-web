@@ -33,13 +33,12 @@ function createRequestOptionsForFile(method, file_name, file_data, headers){
   var requestOptions = {
     'method': method,
     'headers': {
-      'Content-Type': undefined,
       'Authorization': headers['authorization']
     },
     'body': File
     }
-    
-    console.log(requestOptions)
+
+  console.log(requestOptions)
   return requestOptions;
 }
 
