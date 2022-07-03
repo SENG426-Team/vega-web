@@ -36,7 +36,7 @@ function App() {
         	<Route path="/news" component={NewsAndEvents} />
         	<Route path="/platform" component={Platform} />
         	<Route path="/login" component={Login} />
-            <Route path= "/aboutus" component={AboutUs} />
+          <Route path= "/aboutus" component={AboutUs} />
           <Route path="/account" component={UserAccount} />
           <Route path="/resources" component={Resources} />
           <Route path="/passwordgenerator" component={PasswordGenerator} />
