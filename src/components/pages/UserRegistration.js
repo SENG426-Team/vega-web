@@ -15,7 +15,7 @@ const UserRegistration = (props) => {
 
 
 	function onSubmit(userInfo){
-		login(userInfo)
+		UserRegistrationForm(userInfo)
 			.then(res => {
 				console.log("Response", res);
 				console.log(res.jwt);
