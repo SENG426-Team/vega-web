@@ -9,10 +9,12 @@ const VenusNavBar = (props) => {
   var vegavault;
   var resources;
   var adminpanel;
+  var passwordGen;
 
   if(user.username && user.jwt){
     console.log(user);
     logout = <Nav.Link href="/account">Logout</Nav.Link>;
+    passwordGen = <Nav.Link href="/passwordgenerator">Secure Password Generator</Nav.Link>;
   } else{
     logout = <Nav.Link href="/login">Login/SignUp</Nav.Link>;
   }
@@ -37,9 +39,10 @@ const VenusNavBar = (props) => {
         				<Nav.Link href="/news">News & Events</Nav.Link>
         				<Nav.Link href="/leadership">Leadership</Nav.Link>
         				{resources}
-        				<Nav.Link href="#pricing">About us</Nav.Link>
+        				<Nav.Link href="/aboutus">About us</Nav.Link>
         				<Nav.Link href="/contactus">Contact us</Nav.Link>
                 {vegavault}
+                {passwordGen}
               <Nav.Item className="float-right">
                 {logout}
               </Nav.Item>
