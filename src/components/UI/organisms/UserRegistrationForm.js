@@ -27,7 +27,7 @@ const UserRegistrationForm = ({onSubmit}) => {
         <Form.Control type="PASSWORD" onChange={e => setPassword(e.target.value)}/>
     </Form.Group>
     <Button variant="primary" type="submit" onClick={submitForm}>
-        Register
+        Submit
         </Button>
         </Form>
 

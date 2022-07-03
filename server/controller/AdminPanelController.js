@@ -72,6 +72,6 @@ router.post("/adduser", (req, res) => {
 			res.send(error)
 		})
 
-}
+})
 
 export default router;

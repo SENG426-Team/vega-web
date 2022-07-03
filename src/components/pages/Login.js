@@ -1,5 +1,5 @@
 import {useState, useContext} from 'react';
-import UserRegistrationPageLayout from '../templates/UserRegistrationPageLayout.js';
+import LoginPageLayout from '../templates/LoginPageLayout.js';
 import LoginUser from '../UI/organisms/LoginUser.js';
 import {login} from '../../service/auth/AuthenticationManager.js';
 
@@ -25,9 +25,10 @@ const Login = (props) => {
 
 		if(!auth){
 			return (
-				<UserRegistrationPageLayout>
+				<LoginPageLayout>
+
 					<LoginUser onSubmit={onSubmit}/>
-				</UserRegistrationPageLayout>
+				</LoginPageLayout>
 			);
 		} else {
 			return <Redirect to='/' />;
