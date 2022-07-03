@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import FormData from  'form-data';
+import FormData from 'form-data';
 import Promise from 'promise';
 
 export async function doPost(url, data){
@@ -10,6 +10,11 @@ export async function doPost(url, data){
 export async function doGet(url, token){
   const response = await fetch(url, createRequestOptions('GET', undefined, token));
   return await handleResponse(response);
+}
+
+export async function doPostSecret(url, data, token){
+	const response = await fetch(url, createRequestOptions('POST', data, token));
+	return await handleResponse(response);
 }
 
 export async function doPostFile(url, data, headers){
@@ -25,7 +30,6 @@ export async function doPostFile(url, data, headers){
 function createRequestOptionsForFile(method, file_name, file_data, headers){
   var File = new FormData();
   File.append("file", file_data, file_name);
-
   var requestOptions = {
     'method': method,
     'headers': {
