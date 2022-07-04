@@ -28,7 +28,7 @@ const AdminPanel = (props) => {
 
 	const changeRole = (evt, username) => {
 		if(username === "admin@venus.com"){
-			alert("Admin user is not permitted to change roles.")
+			alert("Admin user is not permitted to change it's own role.")
 			evt.target.value = "Default"
 		} else {
 			console.log(evt.target.value, username)
