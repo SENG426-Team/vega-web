@@ -25,6 +25,9 @@ const Login = (props) => {
 				else if (res.code == "ECONNREFUSED"){
 					console.log("Cannot Reach Backend Server");
 					setErrorMSG("Authentication Service Temporarily Unavailable");
+				} else if (res.code == 403) {
+					console.log("User not Enabled");
+					setErrorMSG("The Current User Is Not Enabled");
 				}
 				else{
 					setErrorMSG("");

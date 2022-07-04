@@ -2,6 +2,7 @@ import auth from './auth/AuthenticationManager.js';
 import fileUploader from './controller/FileUploadController.js';
 import adminPanel from './controller/AdminPanelController.js';
 import secret from './controller/SecretController.js';
+import account from './controller/AccountController.js';
 import express from 'express';
 import { config } from 'dotenv';
 import cors from 'cors';
@@ -32,6 +33,7 @@ app.use("/api/login", auth);
 app.use("/api/venus", fileUploader)
 app.use("/api/venus/admin", adminPanel)
 app.use("/api/venus/secret", secret)
+app.use("/api/venus/account", account)
 
 app.listen(port, () => {
   console.log(process.env.API_URL);

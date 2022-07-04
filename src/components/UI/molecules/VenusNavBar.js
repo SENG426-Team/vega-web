@@ -10,6 +10,7 @@ const VenusNavBar = (props) => {
   var resources;
   var adminpanel;
   var passwordGen;
+  var register;
 
   if(user.username && user.jwt){
     console.log(user);
@@ -31,6 +32,10 @@ const VenusNavBar = (props) => {
     adminpanel = <Nav.Link href="/adminpanel">Admin</Nav.Link>
   }
 
+  if(user.username == "") {
+    register = <Nav.Link href="/registeraccount">Register</Nav.Link>
+  }
+
   return (
 		<Navbar bg="light" variant="light">
     		<Container>
@@ -43,6 +48,7 @@ const VenusNavBar = (props) => {
         				<Nav.Link href="/contactus">Contact us</Nav.Link>
                 {vegavault}
                 {passwordGen}
+                {register}
               <Nav.Item className="float-right">
                 {logout}
               </Nav.Item>
