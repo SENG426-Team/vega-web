@@ -34,20 +34,20 @@ const RegisterAccount = (props) => {
 				<h4>Register Account</h4>
 				<Row>
 					<Col className="mx-auto" xs={6}>
-						<Form.Group controlId="formUsername" className="mb-3">
-							<Form.Label>Username</Form.Label>
-							<Form.Control type="username" required={true} onChange={e => setUsername(e.target.value)} />
-						</Form.Group>
 						<Form.Group controlId="formfirstname" className="mb-3">
-							<Form.Label>First Name</Form.Label>
+							<Form.Label>FIRST NAME</Form.Label>
 							<Form.Control type="firstname" required={true} onChange={e => setFirstname(e.target.value)} />
 						</Form.Group>
 						<Form.Group controlId="formlastname" className="mb-3">
-							<Form.Label>Last Name</Form.Label>
+							<Form.Label>LAST NAME</Form.Label>
 							<Form.Control type="lastname" required={true} onChange={e => setLastname(e.target.value)} />
 						</Form.Group>
+						<Form.Group controlId="formUsername" className="mb-3">
+							<Form.Label>USERNAME</Form.Label>
+							<Form.Control type="username" required={true} onChange={e => setUsername(e.target.value)} />
+						</Form.Group>
 						<Form.Group controlId="formPassword" className="mb-3">
-							<Form.Label>Password</Form.Label>
+							<Form.Label>PASSWORD</Form.Label>
 							<Form.Control type="password" required={true} onChange={e => setPassword(e.target.value)} />
 						</Form.Group>
 						<Button variant="primary" type="submit" onClick={handleSubmission}>
