@@ -20,6 +20,7 @@ import {UserContext} from './auth/UserProvider.js';
 import PasswordGenerator from './components/pages/PasswordGenerator.js';
 
 import UserAccount from './components/pages/UserAccount.js';
+import RegisterAccount from './components/pages/RegisterAccount';
 
 require('dotenv').config();
 
@@ -40,6 +41,7 @@ function App() {
             <Route path= "/aboutus" component={AboutUs} />
           <Route path="/account" component={UserAccount} />
           <Route path="/resources" component={Resources} />
+          <Route path="/registeraccount" component={RegisterAccount} />
           <Route path="/vegavault" component={VegaVault} />
           <Route path="/passwordgenerator" component={PasswordGenerator} />
           <Route path="/adminpanel" component={AdminPanel} />
