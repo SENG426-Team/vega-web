@@ -33,7 +33,6 @@ export async function doGet(url, token) {
 
 
 export async function doPost(url, data) {
-  console.debug('Request data:', data);
   const response = await fetch(url, {
     method: 'POST',
     headers : {
@@ -45,7 +44,6 @@ export async function doPost(url, data) {
 }
 
 export async function doPostSecret(url, data, token) {
-  console.debug('Request data:', data);
   const response = await fetch(url, {
     method: 'POST',
     headers : {
@@ -58,8 +56,6 @@ export async function doPostSecret(url, data, token) {
 }
 
 export async function doPostFile(url, data, token) {
-  console.log(getUserToken());
-  console.debug('Request data:', data);
   const response = await fetch(url, {
     method: 'POST',
     headers:{
