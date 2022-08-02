@@ -26,7 +26,7 @@ router.post("/upload", (req,res) => {
     		})
     		.catch(error => {
     			console.log("ERROR:", error);
-    			res.send(error);
+    			res.send("An error has occured");
     		})
 })
 
