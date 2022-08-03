@@ -1,4 +1,4 @@
-import {doPostWithToken, doGet} from './HTTPRequestAPI.js';
+import {doPostWithToken, doGet, doPost} from './HTTPRequestAPI.js';
 
 export function fetchusers(url, headers){
 	console.log(headers);
@@ -6,12 +6,9 @@ export function fetchusers(url, headers){
 }
 
 export function enableAccount(url, data, headers){
-	console.log(headers);
-	console.log(url);
 	return doPostWithToken(url, data, headers['authorization'])
 }
 
-export function changeRole(url,headers){
-	console.log(url);
-	return doGet(url, headers['authorization'])
+export function changeRole(url, data, headers){
+	return doPostWithToken(url, data, headers['authorization'])
 }

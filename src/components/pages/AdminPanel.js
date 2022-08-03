@@ -34,10 +34,15 @@ const AdminPanel = (props) => {
 		if(username === "admin@venus.com"){
 			alert("Admin user is not permitted to change its own role.")
 			evt.target.value = "Default"
-		} else {
+		}else if (evt.target.value == "Default"){
+			console.log("Assigning Default cannot remove role.")
+		}else {
 			console.log(evt.target.value, username)
-			var role = evt.target.value
-			changeAccountRole(username, role, user.jwt)
+			const role_data = {
+				"username": username,
+				"new_role": evt.target.value
+			};
+			changeAccountRole(role_data, user.jwt)
 			.then(resp => 
 				console.log("Changed Roles"))
 		}

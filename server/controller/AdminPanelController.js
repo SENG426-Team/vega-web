@@ -41,11 +41,9 @@ router.post("/enableuser", (req, res) => {
     })
 })
 
-router.get("/changerole", (req, res) => {
+router.post("/changerole", (req, res) => {
 	console.log("Request: Change Role")
-	const {username} = req.query;
-	const {role} = req.query;
-	changeRole(`${url}/venus/admin/changerole?username=${username}&role=${role}`, req.headers)
+	changeRole(url + `/venus/admin/changerole`, req.body, req.headers)
 	.then(response => {
 		console.log("Response", response);
 		res.send(response);
