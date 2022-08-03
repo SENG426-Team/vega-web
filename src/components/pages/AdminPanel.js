@@ -20,7 +20,11 @@ const AdminPanel = (props) => {
 
 	const enableUser = (username) => {
 		console.log("Enable User called with",username)
-		enableAccount(username, user.jwt)
+		const user_data = {
+			"username": username, 
+		};
+
+		enableAccount(user_data, user.jwt)
 		.then(resp => 
 			console.log("User enabled"))
 	}

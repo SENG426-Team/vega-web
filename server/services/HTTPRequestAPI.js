@@ -12,7 +12,7 @@ export async function doGet(url, token){
   return await handleResponse(response);
 }
 
-export async function doPostSecret(url, data, token){
+export async function doPostWithToken(url, data, token){
 	const response = await fetch(url, createRequestOptions('POST', data, token));
 	return await handleResponse(response);
 }

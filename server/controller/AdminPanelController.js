@@ -28,11 +28,9 @@ router.get("/getusers", (req, res) => {
     })
 })
 
-router.get("/enableuser", (req, res) => {
+router.post("/enableuser", (req, res) => {
 	console.log("Request: Enable User");
-	const {username} = req.query;
-	const {enable} = req.query;
-	enableAccount(`${url}/venus/admin/enableuser?username=${username}&enable=${enable}`, req.headers)
+	enableAccount(url + `/venus/admin/enableuser`, req.body, req.headers)
 	.then(response => {
     	console.log("Response", response);
     	res.send(response);

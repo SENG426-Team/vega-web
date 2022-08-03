@@ -44,7 +44,7 @@ export async function doPost(url, data) {
   return await handleResponse(response);
 }
 
-export async function doPostSecret(url, data, token) {
+export async function doPostWithToken(url, data, token) {
   console.debug('Request data:', data);
   const response = await fetch(url, {
     method: 'POST',
