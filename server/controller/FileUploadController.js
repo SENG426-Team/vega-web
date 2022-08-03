@@ -26,7 +26,7 @@ router.post("/upload", (req,res) => {
     		})
     		.catch(error => {
     			console.log("ERROR:", error);
-    			res.send(error);
+    			res.send("An error has occured");
     		})
 })
 
@@ -39,7 +39,7 @@ router.get("/listfiles", (req, res) => {
     })
     .catch(error => {
     	console.log("ERROR:", error);
-    	res.send(error);
+    	res.send("An error has occured");
     })
 })
 
@@ -54,7 +54,7 @@ router.get("/fetchcontent", (req, res) => {
     })
     .catch(error => {
     	console.log("ERROR:", error);
-    	res.send(error);
+    	res.send("An error has occured");
     })
 
 })
