@@ -18,7 +18,7 @@ app.use(express.json({limit: '50mb'}));
 
 if (process.env.NODE_ENV === 'development') {
   var corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: 'https://venus-app.azurewebsites.net/',
     optionsSuccessStatus: 200
   };
   app.use(cors(corsOptions));
