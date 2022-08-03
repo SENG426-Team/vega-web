@@ -17,6 +17,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json({limit: '50mb'}));
 app.disable('x-powered-by');
 
+app.use((request, response, next) => {
+  response.set('X-Content-Type-Options', 'nosniff');
+  next();
+});
+
 if (process.env.NODE_ENV === 'development') {
   var corsOptions = {
     origin: 'https://venus-app.azurewebsites.net/',
