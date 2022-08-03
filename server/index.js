@@ -17,10 +17,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json({limit: '50mb'}));
 app.disable('x-powered-by');
 
-app.use((req, res, next) => {
-  res.set('X-Content-Type-Options', 'nosniff');
-  next();
-});
 
 if (process.env.NODE_ENV === 'development') {
   var corsOptions = {
@@ -29,6 +25,11 @@ if (process.env.NODE_ENV === 'development') {
   };
   app.use(cors(corsOptions));
 }
+
+app.use((req, res, next) => {
+  res.set('X-Content-Type-Options', 'nosniff');
+  next();
+});
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
