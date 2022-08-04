@@ -21,7 +21,6 @@ app.use(express.json({limit: '50mb'}));
 app.use(helmet());
 app.disable('x-powered-by');
 
-
 if (process.env.NODE_ENV === 'development') {
   var corsOptions = {
     origin: 'https://venus-app.azurewebsites.net/',
