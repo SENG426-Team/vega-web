@@ -20,13 +20,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json({limit: '50mb'}));
 app.disable('x-powered-by');
 app.use(helmet());
-app.use((req, res, next) => {
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-  res.setHeader('Content-Type', 'application/json');
-  res.status(404).json({Message: 'Not found'});
-  next();
-});
 
 if (process.env.NODE_ENV === 'development') {
   var corsOptions = {
@@ -35,6 +28,14 @@ if (process.env.NODE_ENV === 'development') {
   };
   app.use(cors(corsOptions));
 }
+
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Content-Type', 'application/json');
+  res.status(404).json({Message: 'Not found'});
+  next();
+});
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
