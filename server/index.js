@@ -33,7 +33,7 @@ app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
  // res.setHeader('Content-Type', 'application/json');
- // res.status(404).json({Message: 'Not found'});
+  res.status(404).json({Message: 'Not found'});
   next();
 });
 
